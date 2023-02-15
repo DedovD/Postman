@@ -2,8 +2,8 @@
 #### Домашняя работа
 
 Создать запросы в Postman.
-Protocol: http
-IP: 162.55.220.72
+Protocol: http, 
+IP: 162.55.220.72,
 Port: 5005
 
 ---
@@ -16,7 +16,7 @@ request url params:
  - age: int
 
 response:
-```
+```javascript
 [
     “Str”,
     “Str”
@@ -33,7 +33,7 @@ request form data:
 - salary: int
 
 response:
-```
+```javascript
 {'name': name,
           'age': age,
           'salary': salary,
@@ -51,7 +51,7 @@ request url params:
 - weight: int
 
 response:
-```
+```javascript
 {'name': name,
           'age': age,
           'daily_food': weight * 0.012,
@@ -68,7 +68,7 @@ request url params:
  - salary: int
 
 response:
-```
+```javascript
 {'start_qa_salary': salary,
           'qa_salary_after_6_months': salary * 2,
           'qa_salary_after_12_months': salary * 2.7,
@@ -90,7 +90,7 @@ request url params:
  - salary: int
 
 response:
-```
+```javascript
 {'name': name,
           'age': age,
           'salary': salary,
@@ -113,7 +113,7 @@ request url params:
  - salary: int
 
 response:
-```
+```javascript
 {'name': name,
           'age': int(age),
           'salary': [salary, str(salary * 2), str(salary * 3)]}
@@ -129,7 +129,7 @@ request form data:
  - salary: int
 
 response:
-```
+```javascript
 {'start_qa_salary': salary,
           'qa_salary_after_6_months': salary * 2,
           'qa_salary_after_12_months': salary * 2.7,
