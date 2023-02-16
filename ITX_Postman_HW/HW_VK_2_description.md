@@ -105,19 +105,98 @@ pm.test("Check salary value", function () {
 });
 ```
 ---
-http://162.55.220.72:5005/object_info_3
-1. Отправить запрос.
-2. Статус код 200
-3. Спарсить response body в json.
-4. Спарсить request.
-5. Проверить, что name в ответе равно name s request (name забрать из request.)
-6. Проверить, что age в ответе равно age s request (age забрать из request.)
-7. Проверить, что salary в ответе равно salary s request (salary забрать из request.)
-8. Вывести в консоль параметр family из response.
-9. Проверить, что у параметра dog есть параметры name.
-10. Проверить, что у параметра dog есть параметры age.
-11. Проверить, что параметр name имеет значение Luky.
-12. Проверить, что параметр age имеет значение 4.
+1. Отправить запрос GET http://162.55.220.72:5005/object_info_3
+```javascript
+Response:
+{
+    "age": "31",
+    "family": {
+        "children": [
+            [
+                "Alex",
+                24
+            ],
+            [
+                "Kate",
+                12
+            ]
+        ],
+        "pets": {
+            "cat": {
+                "age": 3,
+                "name": "Sunny"
+            },
+            "dog": {
+                "age": 4,
+                "name": "Luky"
+            }
+        },
+        "u_salary_1_5_year": 600000
+    },
+    "name": "DmitriiD",
+    "salary": 150000
+}
+```
+2. Спарсить response body в json.
+```javascript
+var resp_f = pm.response.json();
+```
+3. Спарсить request.
+```javascript
+let req_f = pm.request.url.query.toObject()
+```
+4. Проверить, что name в ответе равно name s request (name забрать из request.)
+```javascript
+pm.test("Check name", function () {
+    pm.expect(req_f.name).to.eql(resp_f.name);
+});
+```
+5. Проверить, что age в ответе равно age s request (age забрать из request.)
+```javascript
+pm.test("Check age", function () {
+    pm.expect(req_f.age).to.eql(resp_f.age);
+});
+```
+6. Проверить, что salary в ответе равно salary s request (salary забрать из request.)
+```javascript
+pm.test("Check salary", function () {
+    pm.expect(+req_f.salary).to.eql(resp_f.salary);
+});
+```
+7. Вывести в консоль параметр family из response.
+```javascript
+console.log(resp_f.family)
+```
+8. Проверить, что у параметра dog есть параметры name.
+```javascript
+let resp_dog = resp_f.family.pets.dog;
+
+pm.test("dog has property name", function () {
+    pm.expect(resp_dog).to.have.property("name");
+});
+```
+9. Проверить, что у параметра dog есть параметры age.
+```javascript
+pm.test("dog has property age", function () {
+    pm.expect(resp_dog).to.have.property("age");
+});
+```
+10. Проверить, что параметр name имеет значение Luky.
+```javascript
+let resp_dog_name = resp_f.family.pets.dog.name;
+
+pm.test("Check dog name", function () {
+    pm.expect(resp_dog_name).to.eql('Luky');
+});
+```
+11. Проверить, что параметр age имеет значение 4.
+```javascript
+let resp_dog_age = resp_f.family.pets.dog.age;
+
+pm.test("Check dog age", function () {
+    pm.expect(resp_dog_age).to.eql(4);
+});
+```
 ---
 http://162.55.220.72:5005/object_info_4
 1. Отправить запрос.
