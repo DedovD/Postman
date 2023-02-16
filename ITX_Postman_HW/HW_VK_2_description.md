@@ -1,33 +1,110 @@
-HW_2 Postman
 
-Статус код для всех запросов 200:
+#### Домашняя работа
 
+Protocol: http, 
+IP: 162.55.220.72,
+Port: 5005
+
+---
+Статус код 200 для всех запросов
+
+```javascript
 pm.test("Status code is 200", function () {
 pm.response.to.have.status(200);
 });
-
-http://162.55.220.72:5005/first
+```
+---
 1. Отправить запрос GET
+http://162.55.220.72:5005/first
+```
+Response:
+This is the first responce from server!ss
+```
 2. Проверить, что в body приходит правильный string.
-
+```javascript
 pm.test("Body matches string", function () {
     pm.expect(pm.response.text()).to.include("This is the first responce from server!ss");
 });
-
+```
+---
+1. Отправить запрос POST
 http://162.55.220.72:5005/user_info_3
-1. Отправить запрос.
-2. Статус код 200
-3. Спарсить response body в json.
-4. Проверить, что name в ответе равно name s request (name вбить руками.)
-5. Проверить, что age в ответе равно age s request (age вбить руками.)
-6. Проверить, что salary в ответе равно salary s request (salary вбить руками.)
-7. Спарсить request.
-8. Проверить, что name в ответе равно name s request (name забрать из request.)
-9. Проверить, что age в ответе равно age s request (age забрать из request.)
-10. Проверить, что salary в ответе равно salary s request (salary забрать из request.)
-11. Вывести в консоль параметр family из response.
-12. Проверить что u_salary_1_5_year в ответе равно salary*4 (salary забрать из request)
-
+```javascript
+Response:
+{
+    "age": "31",
+    "family": {
+        "children": [
+            [
+                "Alex",
+                24
+            ],
+            [
+                "Kate",
+                12
+            ]
+        ],
+        "u_salary_1_5_year": 600000
+    },
+    "name": "DmitriiD",
+    "salary": 150000
+}
+```
+2. Спарсить response body в json.
+```javascript
+var resp_f = pm.response.json();
+```
+3. Проверить, что name в ответе равно name s request (name вбить руками.)
+```javascript
+pm.test("Check name", function () {
+    pm.expect("DmitriiD").to.eql(resp_f.name);
+});
+```
+4. Проверить, что age в ответе равно age s request (age вбить руками.)
+```javascript
+pm.test("Check age", function () {
+    pm.expect(31).to.eql(+resp_f.age);
+});
+```
+5. Проверить, что salary в ответе равно salary s request (salary вбить руками.)
+```javascript
+pm.test("Check salary", function () {
+    pm.expect(150000).to.eql(resp_f.salary);
+});
+```
+6. Спарсить request.
+```javascript
+let req_f = request.data;
+```
+7. Проверить, что name в ответе равно name s request (name забрать из request.)
+```javascript
+pm.test("Check name", function () {
+    pm.expect(req_f.name).to.eql(resp_f.name);
+});
+```
+8. Проверить, что age в ответе равно age s request (age забрать из request.)
+```javascript
+pm.test("Check age", function () {
+    pm.expect(req_f.age).to.eql(resp_f.age);
+});
+```
+9. Проверить, что salary в ответе равно salary s request (salary забрать из request.)
+```javascript
+pm.test("Check salary", function () {
+    pm.expect(+req_f.salary).to.eql(resp_f.salary);
+});
+```
+10. Вывести в консоль параметр family из response.
+```javascript
+console.log(resp_f.family)
+```
+11. Проверить что u_salary_1_5_year в ответе равно salary*4 (salary забрать из request)
+```javascript
+pm.test("Check salary value", function () {
+    pm.expect(4 * req_f.salary).to.eql(resp_f.family.u_salary_1_5_year);
+});
+```
+---
 http://162.55.220.72:5005/object_info_3
 1. Отправить запрос.
 2. Статус код 200
@@ -41,7 +118,7 @@ http://162.55.220.72:5005/object_info_3
 10. Проверить, что у параметра dog есть параметры age.
 11. Проверить, что параметр name имеет значение Luky.
 12. Проверить, что параметр age имеет значение 4.
-
+---
 http://162.55.220.72:5005/object_info_4
 1. Отправить запрос.
 2. Статус код 200
@@ -64,7 +141,7 @@ http://162.55.220.72:5005/object_info_4
 19. Передать в окружение переменную age
 20. Передать в окружение переменную salary
 21. Написать цикл который выведет в консоль по порядку элементы списка из параметра salary
-
+---
 http://162.55.220.72:5005/user_info_2
 1. Вставить параметр salary из окружения в request
 2. Вставить параметр age из окружения в age
@@ -89,28 +166,3 @@ http://162.55.220.72:5005/user_info_2
 21. Проверить, что параметр u_salary_5_years равен salary*4.2 из request (salary забрать из request.)
 22. ***Написать цикл который выведет в консоль по порядку элементы списка из параметра person.
 
-
-#### Домашняя работа
-
-Создать запросы в Postman.
-Protocol: http
-IP: 162.55.220.72
-Port: 5005
-
----
-
-EP_1
-Method: GET
-EndPoint: /get_method
-request url params:
- - name: str
- - age: int
-
-response:
-```
-[
-    “Str”,
-    “Str”
-]
-```
----
