@@ -29,8 +29,8 @@ pm.test("Body matches string", function () {
 ---
 1. Отправить запрос POST
 http://162.55.220.72:5005/user_info_3
-```javascript
 Response:
+```javascript
 {
     "age": "31",
     "family": {
@@ -106,8 +106,8 @@ pm.test("Check salary value", function () {
 ```
 ---
 1. Отправить запрос GET http://162.55.220.72:5005/object_info_3
-```javascript
 Response:
+```javascript
 {
     "age": "31",
     "family": {
@@ -198,28 +198,98 @@ pm.test("Check dog age", function () {
 });
 ```
 ---
-http://162.55.220.72:5005/object_info_4
-1. Отправить запрос.
-2. Статус код 200
-3. Спарсить response body в json.
-4. Спарсить request.
-5. Проверить, что name в ответе равно name s request (name забрать из request.)
-6. Проверить, что age в ответе равно age из request (age забрать из request.)
-7. Вывести в консоль параметр salary из request.
-8. Вывести в консоль параметр salary из response.
-9. Вывести в консоль 0-й элемент параметра salary из response.
-10. Вывести в консоль 1-й элемент параметра salary параметр salary из response.
-11. Вывести в консоль 2-й элемент параметра salary параметр salary из response.
-12. Проверить, что 0-й элемент параметра salary равен salary из request (salary забрать из request.)
-13. Проверить, что 1-й элемент параметра salary равен salary*2 из request (salary забрать из request.)
-14. Проверить, что 2-й элемент параметра salary равен salary*3 из request (salary забрать из request.)
-15. Создать в окружении переменную name
-16. Создать в окружении переменную age
-17. Создать в окружении переменную salary
-18. Передать в окружение переменную name
-19. Передать в окружение переменную age
-20. Передать в окружение переменную salary
-21. Написать цикл который выведет в консоль по порядку элементы списка из параметра salary
+1. Отправить запрос GET http://162.55.220.72:5005/object_info_4
+Response:
+```javascript
+{
+    "age": 31,
+    "name": "DmitriiD",
+    "salary": [
+        150000,
+        "300000",
+        "450000"
+    ]
+}
+```
+2. Спарсить response body в json.
+```javascript
+var resp_f = pm.response.json();
+```
+3. Спарсить request.
+```javascript
+let req_f = pm.request.url.query.toObject()
+```
+4. Проверить, что name в ответе равно name s request (name забрать из request.)
+```javascript
+pm.test("Check name", function () {
+    pm.expect(req_f.name).to.eql(resp_f.name);
+});
+```
+5. Проверить, что age в ответе равно age из request (age забрать из request.)
+```javascript
+pm.test("Check age", function () {
+    pm.expect(+req_f.age).to.eql(resp_f.age);
+});
+```
+6. Вывести в консоль параметр salary из request.
+```javascript
+console.log("Salary_req = " + +req_f.salary)
+```
+7. Вывести в консоль параметр salary из response.
+```javascript
+console.log("Salary_resp = " + resp_f.salary)
+```
+8. Вывести в консоль 0-й элемент параметра salary из response.
+```javascript
+console.log("Salary[0] = " + resp_f.salary[0])
+```
+9. Вывести в консоль 1-й элемент параметра salary параметр salary из response.
+```javascript
+console.log("Salary[1] = " + resp_f.salary[1])
+```
+10. Вывести в консоль 2-й элемент параметра salary параметр salary из response.
+```javascript
+console.log("Salary[2] = " + resp_f.salary[2])
+```
+11. Проверить, что 0-й элемент параметра salary равен salary из request (salary забрать из request.)
+```javascript
+pm.test("Salary resp[0] to eql req", function () {
+    pm.expect(resp_f.salary[0]).to.eql(+req_f.salary);
+});
+```
+12. Проверить, что 1-й элемент параметра salary равен salary*2 из request (salary забрать из request.)
+```javascript
+pm.test("Salary resp[1] to eql req * 2", function () {
+    pm.expect(+resp_f.salary[1]).to.eql(req_f.salary * 2);
+});
+```
+13. Проверить, что 2-й элемент параметра salary равен salary*3 из request (salary забрать из request.)
+```javascript
+pm.test("Salary resp[2] to eql req * 3", function () {
+    pm.expect(+resp_f.salary[2]).to.eql(req_f.salary * 3);
+});
+```
+14. Создать в окружении переменную name
+15. Создать в окружении переменную age
+16. Создать в окружении переменную salary
+17. Передать в окружение переменную name
+```javascript
+pm.environment.set("name", resp_f.name);
+```
+18. Передать в окружение переменную age
+```javascript
+pm.environment.set("age", resp_f.age);
+```
+19. Передать в окружение переменную salary
+```javascript
+pm.environment.set("salary", resp_f.salary[0]);
+```
+20. Написать цикл который выведет в консоль по порядку элементы списка из параметра salary
+```javascript
+for (let i = 0; i < Object.keys(resp_f.salary).length; i++){
+    console.log("salary from cycle =" + resp_f.salary[i])
+}
+```
 ---
 http://162.55.220.72:5005/user_info_2
 1. Вставить параметр salary из окружения в request
